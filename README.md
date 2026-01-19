@@ -279,13 +279,11 @@ const styles = StyleSheet.create({
 
 🇺🇸 English (US, GB, AU, IN) • 🇮🇳 Hindi • 🇪🇸 Spanish • 🇫🇷 French • 🇩🇪 German • 🇮🇹 Italian • 🇧🇷 Portuguese • 🇷🇺 Russian • 🇯🇵 Japanese • 🇰🇷 Korean • 🇨🇳 Chinese • 🇸🇦 Arabic
 
-## 📖 Documentation
+## API
 
-For complete documentation, see [SPEECH_CONFIGURATION.md](./SPEECH_CONFIGURATION.md)
+Static access to the Voice API.
 
-### Key APIs
-
-#### Speech Recognition
+### Speech Recognition
 
 ```typescript
 // Start recording
@@ -300,7 +298,7 @@ addSpeechResultListener((event) => {
 });
 ```
 
-#### Text-to-Speech
+### Text-to-Speech
 
 ```typescript
 // Speak text
@@ -312,6 +310,10 @@ await stopSpeaking();
 // Check if speaking
 const speaking = await isSpeaking();
 ```
+
+### Events
+
+Callbacks that are invoked when a native event emitted.
 
 ## ⚙️ Configuration
 
