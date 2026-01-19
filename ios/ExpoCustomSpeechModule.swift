@@ -2,6 +2,19 @@ import ExpoModulesCore
 import Speech
 import AVFoundation
 
+// Separate delegate class for AVSpeechSynthesizer
+private class SpeechSynthesizerDelegate: NSObject, AVSpeechSynthesizerDelegate {
+  weak var module: ExpoCustomSpeechModule?
+  
+  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+    module?.sendEvent("onTTSComplete", ["timestamp": Date().timeIntervalSince1970 * 1000])
+  }
+  
+  func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+    module?.sendEvent("onTTSComplete", ["timestamp": Date().timeIntervalSince1970 * 1000])
+  }
+}
+
 public class ExpoCustomSpeechModule: Module {
   // Speech Recognizer Variables
   private var speechRecognizer: SFSpeechRecognizer?
@@ -11,12 +24,19 @@ public class ExpoCustomSpeechModule: Module {
   
   // Text-to-Speech Variables
   private let speechSynthesizer = AVSpeechSynthesizer()
+  private let speechDelegate = SpeechSynthesizerDelegate()
 
   public func definition() -> ModuleDefinition {
     Name("ExpoCustomSpeech")
 
     // Events to send to JavaScript
     Events("onSpeechResult", "onSpeechError", "onTTSStart", "onTTSComplete", "onTTSError")
+    
+    // Set up delegate reference
+    OnCreate {
+      self.speechDelegate.module = self
+      self.speechSynthesizer.delegate = self.speechDelegate
+    }
 
     // 1. Request Permissions
     AsyncFunction("requestPermissions") { (promise: Promise) in
@@ -70,9 +90,6 @@ public class ExpoCustomSpeechModule: Module {
       let utterance = AVSpeechUtterance(string: text)
       utterance.voice = AVSpeechSynthesisVoice(language: selectedLanguage)
       utterance.rate = AVSpeechUtteranceDefaultSpeechRate
-      
-      // Set up delegate for events
-      self.speechSynthesizer.delegate = self
       
       self.speechSynthesizer.speak(utterance)
       self.sendEvent("onTTSStart", ["timestamp": Date().timeIntervalSince1970 * 1000])
@@ -161,16 +178,5 @@ public class ExpoCustomSpeechModule: Module {
     recognitionRequest?.endAudio()
     recognitionRequest = nil
     recognitionTask = nil
-  }
-}
-
-// MARK: - AVSpeechSynthesizerDelegate
-extension ExpoCustomSpeechModule: AVSpeechSynthesizerDelegate {
-  public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-    sendEvent("onTTSComplete", ["timestamp": Date().timeIntervalSince1970 * 1000])
-  }
-  
-  public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-    sendEvent("onTTSComplete", ["timestamp": Date().timeIntervalSince1970 * 1000])
   }
 }
