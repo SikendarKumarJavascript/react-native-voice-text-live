@@ -1,0 +1,23 @@
+import { EventSubscription } from 'expo-modules-core';
+import { SpeechResultEventPayload, SpeechErrorEventPayload, SpeechStartEventPayload, SpeechEndEventPayload, AudioLevelEventPayload, TTSStartEventPayload, TTSCompleteEventPayload, TTSErrorEventPayload, SupportedLanguage, PermissionResult } from './ExpoCustomSpeech.types';
+export declare function requestPermissions(): Promise<PermissionResult>;
+export declare function start(language?: SupportedLanguage): Promise<void>;
+export declare function stop(): Promise<void>;
+export declare function pause(): Promise<void>;
+export declare function resume(): Promise<void>;
+export declare function addSpeechResultListener(listener: (event: SpeechResultEventPayload) => void): EventSubscription;
+export declare function addSpeechErrorListener(listener: (event: SpeechErrorEventPayload) => void): EventSubscription;
+export declare function addSpeechStartListener(listener: (event: SpeechStartEventPayload) => void): EventSubscription;
+export declare function addSpeechEndListener(listener: (event: SpeechEndEventPayload) => void): EventSubscription;
+export declare function addAudioLevelListener(listener: (event: AudioLevelEventPayload) => void): EventSubscription;
+export declare function speak(text: string, language?: SupportedLanguage): Promise<void>;
+export declare function stopSpeaking(): Promise<void>;
+export declare function isSpeaking(): Promise<boolean>;
+export declare function addTTSStartListener(listener: (event: TTSStartEventPayload) => void): EventSubscription;
+export declare function addTTSCompleteListener(listener: (event: TTSCompleteEventPayload) => void): EventSubscription;
+export declare function addTTSErrorListener(listener: (event: TTSErrorEventPayload) => void): EventSubscription;
+export declare const SUPPORTED_LANGUAGES: Record<string, SupportedLanguage>;
+export { default } from './ExpoCustomSpeechModule';
+export { default as ExpoCustomSpeechView } from './ExpoCustomSpeechView';
+export * from './ExpoCustomSpeech.types';
+//# sourceMappingURL=index.d.ts.map

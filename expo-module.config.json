@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android", "web"],
+  "apple": {
+    "modules": ["ExpoCustomSpeechModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.customspeech.ExpoCustomSpeechModule"]
+  }
+}
