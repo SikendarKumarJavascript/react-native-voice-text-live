@@ -29,7 +29,7 @@ yarn add github:SikendarKumarJavascript/react-native-voice-text-live
 **Install specific version:**
 
 ```bash
-npm install github:SikendarKumarJavascript/react-native-voice-text-live#v0.1.0
+npm install github:SikendarKumarJavascript/react-native-voice-text-live#v1.2.0
 ```
 
 ### From NPM (Coming Soon)
